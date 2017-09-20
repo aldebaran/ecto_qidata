@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(ecto_opencv)
+project(ecto_qidata)
 
 find_package(qibuild REQUIRED)
 find_package(ecto REQUIRED)

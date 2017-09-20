@@ -1,6 +1,7 @@
+#pragma once
 #include <opencv2/core.hpp>
 
-namespace qidata_cells
+namespace qidata
 {
 
   struct Timestamp
