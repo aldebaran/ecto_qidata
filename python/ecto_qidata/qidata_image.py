@@ -15,7 +15,7 @@ class imread(ecto.Cell):
 		return
 
 	def declare_io(self, p, i, o):
-		o.declare("qidata_image", "QiDataImage")
+		o.declare("qidata_image", "QiDataImage", QiDataImage())
 		return
 
 	def process(self, i, o):
