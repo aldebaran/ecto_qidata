@@ -18,8 +18,8 @@ ECTO_DEFINE_MODULE(camera)
 		.def_readwrite("seconds", &qidata::Timestamp::seconds)
 		.def_readwrite("nanoseconds", &qidata::Timestamp::nanoseconds);
 
-	boost::python::class_<qidata::Camera>("QiDataCamera")
-		.def_readwrite("image", &qidata::Camera::image)
-		.def_readwrite("tf", &qidata::Camera::tf)
-		.def_readwrite("ts", &qidata::Camera::ts);
+	boost::python::class_<qidata::Image>("QiDataImage")
+		.def_readwrite("data", &qidata::Image::data)
+		.def_readwrite("tf", &qidata::Image::tf)
+		.def_readwrite("ts", &qidata::Image::ts);
 }

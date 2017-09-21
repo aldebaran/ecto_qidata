@@ -21,9 +21,9 @@ namespace qidata
     float rw;
   };
 
-  struct Camera
+  struct Image
   {
-    cv::Mat image;
+    cv::Mat data;
     Transform tf;
     Timestamp ts;
   };
