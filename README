@@ -1,1 +1,4 @@
 This repo contains cells useful for tests with qidata.
+
+From now on (0.1.0-r5), the tag will not always increase if only the python code changes.
+Therefor the git tag will mark iterations above a certain version of the qiproject
