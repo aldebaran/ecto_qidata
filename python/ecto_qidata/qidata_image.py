@@ -1,5 +1,6 @@
 
 # Third-party libraries
+import cv2
 import ecto
 from ecto_opencv import cv_bp
 from image import Colorspace
