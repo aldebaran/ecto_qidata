@@ -35,7 +35,7 @@ class imread(ecto.Cell):
 				# no convert
 				_tmp = _f.raw_data.numpy_image
 			c.fromarray(_tmp)
-			cam.image = c
+			cam.data = c
 
 			# Register the camera's position
 			cam.tf.tx = _f.transform.translation.x
