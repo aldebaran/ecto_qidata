@@ -26,5 +26,10 @@ namespace qidata
     cv::Mat data;
     Transform tf;
     Timestamp ts;
+    int colorspace;
+    cv::Mat camera_matrix;
+    std::vector<float> distortion_coeffs;
+    cv::Mat rectification_matrix;
+    cv::Mat projection_matrix;
   };
 }

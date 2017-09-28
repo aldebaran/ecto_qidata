@@ -4,6 +4,7 @@ import cv2
 import ecto
 from ecto_opencv import cv_bp # not directly used, by it imports all cv bindings
 from image import Colorspace
+import numpy
 import qidata
 
 # Local modules
@@ -27,13 +28,17 @@ class imread(ecto.Cell):
 			if ("COLOR" == self.params.get("mode").get() and Colorspace("BGR") != _f.raw_data.colorspace):
 				# convert
 				_tmp = _f.raw_data.render().numpy_image
+				colorspace = 13 # AL_code for BGR
 			elif ("GRAYSCALE" == self.params.get("mode").get() and Colorspace("Gray") != _f.raw_data.colorspace):
 				_tmp = _f.raw_data.render().numpy_image
 				_tmp = cv2.cvtColor(_tmp, cv2.COLOR_BGR2GRAY)
+				colorspace = 0 # AL_code for Gray
 			else:
 				# no convert
 				_tmp = _f.raw_data.numpy_image
+				colorspace = _f.raw_data.colorspace.al_code
 			cam.data.fromarray(_tmp)
+			cam.colorspace = colorspace
 
 			# Register the camera's position
 			cam.tf.tx = _f.transform.translation.x
@@ -48,6 +53,11 @@ class imread(ecto.Cell):
 			cam.ts.seconds = _f.timestamp.seconds
 			cam.ts.nanoseconds = _f.timestamp.nanoseconds
 
+			# Register the calibration
+			cam.camera_matrix.fromarray(numpy.array(_f.raw_data.camera_info.camera_matrix))
+			cam.distortion_coeffs = ecto.list_of_floats(_f.raw_data.camera_info.distortion_coeffs)
+			cam.rectification_matrix.fromarray(numpy.array(_f.raw_data.camera_info.rectification_matrix))
+			cam.projection_matrix.fromarray(numpy.array(_f.raw_data.camera_info.projection_matrix))
 
 		o.get("qidata_image").set(cam)
 		return ecto.OK

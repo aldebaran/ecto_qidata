@@ -21,5 +21,10 @@ ECTO_DEFINE_MODULE(camera)
 	boost::python::class_<qidata::Image>("QiDataImage")
 		.def_readwrite("data", &qidata::Image::data)
 		.def_readwrite("tf", &qidata::Image::tf)
-		.def_readwrite("ts", &qidata::Image::ts);
+		.def_readwrite("ts", &qidata::Image::ts)
+		.def_readwrite("colorspace", &qidata::Image::colorspace)
+		.def_readwrite("camera_matrix", &qidata::Image::camera_matrix)
+		.def_readwrite("distortion_coeffs", &qidata::Image::distortion_coeffs)
+		.def_readwrite("rectification_matrix", &qidata::Image::rectification_matrix)
+		.def_readwrite("projection_matrix", &qidata::Image::projection_matrix);
 }
