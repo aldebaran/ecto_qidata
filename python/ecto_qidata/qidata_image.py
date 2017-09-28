@@ -2,7 +2,7 @@
 # Third-party libraries
 import cv2
 import ecto
-from ecto_opencv import cv_bp
+from ecto_opencv import cv_bp # not directly used, by it imports all cv bindings
 from image import Colorspace
 import qidata
 
@@ -20,23 +20,20 @@ class imread(ecto.Cell):
 		return
 
 	def process(self, i, o):
-		c = cv_bp.Mat()
 		cam = QiDataImage()
 		with qidata.open(self.params.get("image_file").get()) as _f:
 			# Retrieve image, convert it if necessary, then put it in a Cv::Mat
 			# and in QiDataImage
-			_tmp  = _f.raw_data.numpy_image
 			if ("COLOR" == self.params.get("mode").get() and Colorspace("BGR") != _f.raw_data.colorspace):
 				# convert
 				_tmp = _f.raw_data.render().numpy_image
-			elif ("GRAY" == self.params.get("mode").get() and Colorspace("Gray") != _f.raw_data.colorspace):
+			elif ("GRAYSCALE" == self.params.get("mode").get() and Colorspace("Gray") != _f.raw_data.colorspace):
 				_tmp = _f.raw_data.render().numpy_image
 				_tmp = cv2.cvtColor(_tmp, cv2.COLOR_BGR2GRAY)
 			else:
 				# no convert
 				_tmp = _f.raw_data.numpy_image
-			c.fromarray(_tmp)
-			cam.data = c
+			cam.data.fromarray(_tmp)
 
 			# Register the camera's position
 			cam.tf.tx = _f.transform.translation.x
@@ -51,9 +48,6 @@ class imread(ecto.Cell):
 			cam.ts.seconds = _f.timestamp.seconds
 			cam.ts.nanoseconds = _f.timestamp.nanoseconds
 
-			# Future: Register camera's calibration
-			# fh3 = _f.raw_data.camera_info.camera_matrix[0]
-			# fv3 = _f.raw_data.camera_info.camera_matrix[0]
 
 		o.get("qidata_image").set(cam)
 		return ecto.OK
